@@ -191,7 +191,7 @@ td a{text-decoration: 2px underline dotted #f0f}
 		<div id="">
 			Mint SWECH by locking ECH<br>
 			<input class="farmcontrols farm_i farm_input_deposit" value="" placeholder="Amount to Lock" id="farm_1_input_deposit"><br>
-			<button class="farmcontrols farm_b farm_approve" onclick="farm_1_f_approve()" id="farm_1_approval">Mint SWECH</button><br><br>
+			<button class="farmcontrols farm_b farm_approve" onclick="mint_mint()" id="mint_mint">Mint SWECH</button><br><br>
 		</div>
 	</div>
 	<div></div>
@@ -985,6 +985,14 @@ async function DrefreshFarm()
 	catch(e){console.log(e);}
 }
 
+async function mint_mint() {
+	damt = BigInt($("mint_mint").value * 1e18);
+	if(!isFinite(damt)){alert("Wrong input format!");return}
+	sw=new ethers.Contract(SWECH, ["function deposit(uint) payable"], signer);
+	await tx=sw.deposit(damt)
+	await tx.wait();
+	await gubs();
+}
 async function gubs() {
 	wech = new ethers.Contract(WECH, ab1, signer);
 	swech = new ethers.Contract(SWECH, ab1, signer);
@@ -995,10 +1003,10 @@ async function gubs() {
 		swech.balanceOf(window.ethereum.selectedAddress),
 		///iech.balanceOf(window.ethereum.selectedAddress),
 	]).then(r=>{
-		$("mint_bal_ech").innerHTML = (Number(r[0])/1e18).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2})
-		$("mint_bal_wech").innerHTML = (Number(r[1])/1e18).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2})
-		$("mint_bal_swech").innerHTML = (Number(r[2])/1e18).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2})
-		///$("mint_bal_iech").innerHTML = (Number(r[0])/1e18).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2})
+		$("mint_bal_ech").innerHTML = (Number(r[0])/1e18).toLocaleString(undefined,{minimumFractionDigits:0, maximumFractionDigits:0})
+		$("mint_bal_wech").innerHTML = (Number(r[1])/1e18).toLocaleString(undefined,{minimumFractionDigits:0, maximumFractionDigits:0})
+		$("mint_bal_swech").innerHTML = (Number(r[2])/1e18).toLocaleString(undefined,{minimumFractionDigits:0, maximumFractionDigits:0})
+		///$("mint_bal_iech").innerHTML = (Number(r[0])/1e18).toLocaleString(undefined,{minimumFractionDigits:0, maximumFractionDigits:0})
 	})
 }
 async function guh() {
