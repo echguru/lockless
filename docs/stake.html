@@ -150,8 +150,67 @@ td a{text-decoration: 2px underline dotted #f0f}
 		<span id="cw"></span> <button onclick="cw()" id="btn-switch">Switch?</button>
 	</div>
 </div>
-<br>
+<br><br><br><br>
 <div align="center">
+<h1 align="center">Step 1.</h1>
+<h2 align="center">Mint SWECH by Locking ECH</h2>
+
+<div id="fdet"  style="">
+<span>To Lock:</span><span></span><span> ECH</span>
+<span>Receive:</span><span></span><span> SWECH</span>
+<span>Platform:</span><span></span><span> Lockless Protocol</span>
+<span>Fees:</span><span></span><span> 0.00%</span>
+</div>
+</div>
+<br><br>
+<div class="mainstages" align="center">
+	<div></div>
+	<div class="mainstage" style="" align="center">
+		<div class="">
+			<h3 style="font-size:1.5em;">Deposit ECH<br>(Echelon Native)</h3>
+			<img src="https://ftm.guru/icons/ech.svg" style="width:32px;">
+			<b style="position:relative;top:;left:">⇢</b>
+			<img src="https://ftm.guru/icons/swech.svg" style="width:32px;">
+			<br><br>
+			<div class="fardet" style="font-size:1.5em;font-weight:bolder;display:grid;grid-template-columns:auto auto auto auto auto">
+				<span></span><span id="">Asset</span>
+				<span></span><span>Balance</span><span></span>
+				<span></span><span id="mint_bal_ech">?</span>
+				<span></span><span>ECH</span><span></span>
+				<span></span><span id="mint_bal_wech">?</span>
+				<span></span><span>WECH</span><span></span>
+				<span></span><span id="mint_bal_swech">?</span>
+				<span></span><span>SWECH</span><span></span>
+				<span></span><span id="mint_bal_iech">?</span>
+				<span></span><span>iECH</span><span></span>
+			</div>
+			<br><button style="font-size: 1em" id="refresh_mint_bal" onclick="gub_mint()">↺ Reload Balances</button><br>
+			<br><hr>
+		</div>
+		<br>
+		<div id="f1app">
+			Mint SWECH by locking ECH<br>
+			<input class="farmcontrols farm_i farm_input_deposit" value="" placeholder="Amount to Lock" id="farm_1_input_deposit"><br>
+			<button class="farmcontrols farm_b farm_approve" onclick="farm_1_f_approve()" id="farm_1_approval">Mint SWECH</button><br><br>
+		</div>
+	</div>
+	<div></div>
+</div>
+
+<br><br>
+<div align="center">
+Converting ECH to SWECH is non-reversible.
+<br>All ECH that are used to mint SWECH get locked permanently into Lockless Protocol for Staking with the best Echelon Chain Validators.
+<br><br>
+To convert SWECH back into ECH, anyone can Trade it easily on ABcDeFX.<br><br>
+<a href="https://abcdefx.eliteness.network/#/swap?outputCurrency=0x86e4D91800c03e803d4c8FA3293d1C7d612A7300" target="_blank"><button>Trade SWECH at ABcDeFx</button></a>
+</div>
+<br><br><br>
+<br><br><br>
+<hr class="hhr">
+<br><br><br>
+<div align="center">
+<h1 align="center">Step 2.</h2>
 <h2 align="center">Liquid Staking for ECH</h2>
 
 <div id="fdet"  style="">
@@ -241,7 +300,10 @@ All SWECH are backed by atleast 1 ECH, ensuring its peg algorithmically.<br><br>
 
 <hr class="hhr">
 <div style="overflow:auto" align="center">
-	<div align="center">Dry Date<br><i id="pf">?</i></div>
+	<div align="center" style="display:none">
+		Dry Date<br>
+		<i id="pf">?</i>
+	</div>
 	<br><br>
 	<h2>Farming History</h2>
 	<div style="
@@ -363,6 +425,10 @@ decEARN = 18;
 EXPLORE = "https://app.ech.network/explorer/";
 EXPLORT = EXPLORE + "tx/";
 tsca = "0x5c652a94c672f8f6d021417bb5ee75c322ecf1fc";
+SWECH = "0x86e4D91800c03e803d4c8FA3293d1C7d612A7300";
+WECH = "0xadEE5159f4f82a35B9068A6c810bdc6c599Ba6a8";
+iECH = "";
+
 function $(_) {return document.getElementById(_);}
 let provider= {};
 let signer= {};
@@ -383,7 +449,7 @@ async function basetrip()
 		console.log("Recognized Ethereum Chain:", window.ethereum.chainId,CHAINID);
 		provider = new ethers.providers.Web3Provider(window.ethereum)
 		signer = provider.getSigner();
-		if(!(window.ethereum.selectedAddress==null)){console.log("Found old wallet:", window.ethereum.selectedAddress);DrefreshFarm();refreshFarm();cw();arf();guh()}
+		if(!(window.ethereum.selectedAddress==null)){console.log("Found old wallet:", window.ethereum.selectedAddress);DrefreshFarm();refreshFarm();cw();arf();guh();gubs()}
 	}
 	else //if(Number(window.ethereum.chainId)==CHAINID)
 	{
@@ -838,7 +904,7 @@ function farm_1_f_deposit()
 	}
 	catch(e){console.log(e)}
 }
-function gs(){console.log("gs lol");refreshFarm()}
+function gs(){console.log("gs lol");refreshFarm();gubs()}
 function farm_1_f_claim()
 {
 	try
@@ -878,6 +944,7 @@ async function refreshFarm()
 	try
 	{
 		farm_1_f_chappro();
+		gubs();
 
 		theCon = new ethers.Contract(f_1_add, farabi, provider);
 		theCon.earned(window.ethereum.selectedAddress, TEARNED[0])
@@ -918,6 +985,22 @@ async function DrefreshFarm()
 	catch(e){console.log(e);}
 }
 
+async function gubs() {
+	wech = new ethers.contract(WECH, ab1, signer);
+	swech = new ethers.contract(SWECH, ab1, signer);
+	///iech = new ethers.contract(iECH, ab1, signer);
+	Promise.all([
+		provider.getBalance(window.ethereum.selectedAddress),
+		wech.balanceOf(window.ethereum.selectedAddress),
+		swech.balanceOf(window.ethereum.selectedAddress),
+		///iech.balanceOf(window.ethereum.selectedAddress),
+	]).then(r=>{
+		$("mint_bal_ech").innerHTML = (Number(r[0])/1e18).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2})
+		$("mint_bal_wech").innerHTML = (Number(r[1])/1e18).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2})
+		$("mint_bal_swech").innerHTML = (Number(r[2])/1e18).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2})
+		///$("mint_bal_iech").innerHTML = (Number(r[0])/1e18).toLocaleString(undefined,{minimumFractionDigits:2, maximumFractionDigits:2})
+	})
+}
 async function guh() {
 	theCon = new ethers.Contract(f_1_add, farabi, provider);
 	//theCon.periodFinish().then(r => {$("pf").innerHTML=new Date(Number(r) * 1000)});
