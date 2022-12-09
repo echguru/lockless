@@ -175,13 +175,13 @@ td a{text-decoration: 2px underline dotted #f0f}
 			<div class="fardet" style="font-size:1.5em;font-weight:bolder;display:grid;grid-template-columns:auto auto auto auto auto">
 				<span></span><span id="">Asset</span>
 				<span></span><span>Balance</span><span></span>
-				<span></span><span id="mint_bal_ech">?</span>
+				<span></span><span id="mint_bal_ech">0</span>
 				<span></span><span>ECH</span><span></span>
-				<span></span><span id="mint_bal_wech">?</span>
+				<span></span><span id="mint_bal_wech">0</span>
 				<span></span><span>WECH</span><span></span>
-				<span></span><span id="mint_bal_swech">?</span>
+				<span></span><span id="mint_bal_swech">0</span>
 				<span></span><span>SWECH</span><span></span>
-				<span></span><span id="mint_bal_iech">?</span>
+				<span></span><span id="mint_bal_iech">0</span>
 				<span></span><span>iECH</span><span></span>
 			</div>
 			<br><button style="font-size: 1em" id="refresh_mint_bal" onclick="gub_mint()">↺ Reload Balances</button><br>
@@ -986,9 +986,9 @@ async function DrefreshFarm()
 }
 
 async function gubs() {
-	wech = new ethers.contract(WECH, ab1, signer);
-	swech = new ethers.contract(SWECH, ab1, signer);
-	///iech = new ethers.contract(iECH, ab1, signer);
+	wech = new ethers.Contract(WECH, ab1, signer);
+	swech = new ethers.Contract(SWECH, ab1, signer);
+	///iech = new ethers.Contract(iECH, ab1, signer);
 	Promise.all([
 		provider.getBalance(window.ethereum.selectedAddress),
 		wech.balanceOf(window.ethereum.selectedAddress),
