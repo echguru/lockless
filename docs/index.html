@@ -990,7 +990,7 @@ async function mint_mint() {
 	if(!isFinite(damt)){alert("Wrong input format!");return}
 	damt = BigInt($("mint_mint").value * 1e18);
 	sw=new ethers.Contract(SWECH, ["function deposit(uint) payable"], signer);
-	tx=awaitsw.deposit(damt)
+	tx=await sw.deposit(damt)
 	await tx.wait();
 	await gubs();
 }
