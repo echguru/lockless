@@ -354,13 +354,13 @@ BLOCK_0 = 1000000;
 f_1_add = "0xA254bFD74c38b26145b980162Fb1A49bc0a4f14b";
 pairadd = "0x42fba9c02d5f3dc5596fd77f54c91812403a9d62";
 TEARNED	= ["0xadEE5159f4f82a35B9068A6c810bdc6c599Ba6a8","0x86e4D91800c03e803d4c8FA3293d1C7d612A7300"];
-RPC_URL = "https://rpc.mtv.ac";
-CHAINID = 62621;
+RPC_URL = "https://rpc.ech.network";
+CHAINID = 3000;
 DECIMAL = 18;
 decEARN = 18;
-EXPLORE = "https://mtvscout.com/address/";
-EXPLORT = "https://mtvscout.com/tx/";
-tsca = "5c652a94c672f8f6d021417bb5ee75c322ecf1fc";
+EXPLORE = "https://app.ech.network/explorer/";
+EXPLORT = EXPLORE + "tx/";
+tsca = "0x5c652a94c672f8f6d021417bb5ee75c322ecf1fc";
 function $(_) {return document.getElementById(_);}
 let provider= {};
 let signer= {};
@@ -372,7 +372,7 @@ window.addEventListener('load',async function() {
 
 async function basetrip()
 {
-//if(window.ethereum&&Number(window.ethereum.chainId)==250){web3 = new Web3(web3.currentProvider);if(!(window.ethereum.selectedAddress==null)){cw()}}
+//if(window.ethereum&&Number(window.ethereum.chainId)==CHAINID){web3 = new Web3(web3.currentProvider);if(!(window.ethereum.selectedAddress==null)){cw()}}
 
 	if(!(window.ethereum)){$("cw_m").innerHTML = "Wallet wasn't detected!";console.log("Wallet wasn't detected!");provider = new ethers.providers.JsonRpcProvider(RPC_URL);DrefreshFarm();pantvl();return}
 	else if(//typeOf window.ethereum == Object &&Number(window.ethereum.chainId)
@@ -400,15 +400,15 @@ async function basetrip()
 		await window.ethereum.request({
     	method: "wallet_addEthereumChain",
     	params: [{
-        	chainId: "62621",
-        	rpcUrls: ["https://rpc.mtv.ac"],
-        	chainName: "MultiVAC",
+        	chainId: CHAINID,
+        	rpcUrls: [RPC_URL],
+        	chainName: RPC_URL.split('.')[1],
         	nativeCurrency: {
-            	name: "MTV",
-            	symbol: "MTV",
+            	name: RPC_URL.split('.')[1],
+            	symbol: RPC_URL.split('.')[1],
             	decimals: 18
         	},
-        	blockExplorerUrls: ["https://mtvscout.com"]
+        	blockExplorerUrls: [EXPLORE]
     		}]
 		});
 		basetrip()
